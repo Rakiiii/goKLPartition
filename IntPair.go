@@ -4,6 +4,15 @@ type IntPair struct {
 	Number, Diff int
 }
 
+func CheckNumber(num int, arr []IntPair) int {
+	for i, elem := range arr {
+		if elem.Number == num {
+			return i
+		}
+	}
+	return -1
+}
+
 func QuickSortIntPair(arr *[]IntPair, _st, _en int) {
 	st := _st
 	en := _en - 1

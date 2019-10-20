@@ -165,3 +165,10 @@ func (k *KLSolution) DecrementDiff(av, bv int) {
 		}
 	}
 }
+
+func (k *KLSolution) SwapVertex(av, bv int) {
+	k.Solution.SetBool(av, 0, false)
+	k.Solution.SetBool(av, 1, true)
+	k.Solution.SetBool(bv, 0, true)
+	k.Solution.SetBool(bv, 1, false)
+}
