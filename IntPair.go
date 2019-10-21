@@ -1,5 +1,10 @@
 package klpartitinlin
 
+import (
+	"fmt"
+	"math/rand"
+)
+
 type IntPair struct {
 	Number, Diff int
 }
@@ -13,78 +18,91 @@ func CheckNumber(num int, arr []IntPair) int {
 	return -1
 }
 
-func QuickSortIntPair(arr *[]IntPair, _st, _en int) {
-	st := _st
-	en := _en - 1
-
-	p := (*arr)[_en>>1]
-	for ok := true; ok; ok = (st <= en) {
-		for (*arr)[st].Diff < p.Diff {
-			st++
-		}
-		for (*arr)[st].Diff > p.Diff {
-			en--
-		}
-
-		if st <= en {
-			temp := (*arr)[st]
-			(*arr)[st] = (*arr)[en]
-			(*arr)[en] = temp
-			st++
-			en--
-		}
-	}
-
-	if en > 0 {
-		QuickSortIntPair(arr, 0, en)
-	}
-	if _en > st {
-		QuickSortIntPair(arr, st, _en-st)
-	}
-
+func (p *IntPair) Print() {
+	fmt.Print(p.Number, "|", p.Diff)
+}
+func (p *IntPair) Println() {
+	fmt.Println(p.Number, "|", p.Diff)
 }
 
-func MergeSortIntPair(arr *[]IntPair, _st, _en int) {
-	if _st < _en {
-		split := (_st + _en) / 2
-		MergeSortIntPair(arr, _st, split)
-		MergeSortIntPair(arr, split, _en)
-		Merge(arr, _st, split, _en)
+func PrintIntPairSlice(s []IntPair) {
+	for _, i := range s {
+		i.Println()
 	}
-
 }
 
-func Merge(arr *[]IntPair, _st, _sp, _en int) {
-	posSt := _st
-	posEn := _sp + 1
+func QuicksortIntPair(a []IntPair) []IntPair {
+	if len(a) < 2 {
+		return a
+	}
 
-	posRes := 0
+	left, right := 0, len(a)-1
 
-	res := make([]IntPair, _en-_st+1)
+	pivot := rand.Int() % len(a)
 
-	for posSt <= _sp && posEn <= _en {
-		if (*arr)[posSt].Diff < (*arr)[posEn].Diff {
-			res[posRes] = (*arr)[posSt]
-			posSt++
+	a[pivot], a[right] = a[right], a[pivot]
+
+	for i, _ := range a {
+		if a[i].Diff < a[right].Diff {
+			a[left], a[i] = a[i], a[left]
+			left++
+		}
+	}
+
+	a[left], a[right] = a[right], a[left]
+
+	QuicksortIntPair(a[:left])
+	QuicksortIntPair(a[left+1:])
+
+	return a
+}
+
+func MergeSort(items []IntPair) []IntPair {
+	var num = len(items)
+
+	if num == 1 {
+		return items
+	}
+
+	middle := int(num / 2)
+	var (
+		left  = make([]IntPair, middle)
+		right = make([]IntPair, num-middle)
+	)
+	for i := 0; i < num; i++ {
+		if i < middle {
+			left[i] = items[i]
 		} else {
-			res[posRes] = (*arr)[posEn]
-			posEn++
+			right[i-middle] = items[i]
 		}
-		posRes++
 	}
 
-	for posEn <= _en {
-		res[posRes] = (*arr)[posEn]
-		posRes++
-		posEn++
-	}
-	for posSt <= _sp {
-		res[posRes] = (*arr)[posSt]
-		posSt++
-		posRes++
+	return Merge(MergeSort(left), MergeSort(right))
+}
+
+func Merge(left, right []IntPair) (result []IntPair) {
+	result = make([]IntPair, len(left)+len(right))
+
+	i := 0
+	for len(left) > 0 && len(right) > 0 {
+		if left[0].Diff < right[0].Diff {
+			result[i] = left[0]
+			left = left[1:]
+		} else {
+			result[i] = right[0]
+			right = right[1:]
+		}
+		i++
 	}
 
-	for posRes = 0; posRes < _en-_st+1; posRes++ {
-		(*arr)[_st+posRes] = res[posRes]
+	for j := 0; j < len(left); j++ {
+		result[i] = left[j]
+		i++
 	}
+	for j := 0; j < len(right); j++ {
+		result[i] = right[j]
+		i++
+	}
+
+	return
 }

@@ -16,12 +16,17 @@ func KLPartitionigAlgorithm(graph *graphlib.Graph, _sol *boolmatrixlib.BoolMatri
 	sol.Init(graph)
 	if _sol != nil {
 		sol.Solution = *_sol
+		sol.InitDiff()
 	}
 
 	fVertex, sVertex, dif := sol.FindBestPair()
+
 	swapVertex := make([]int, 0)
 	for dif > 0 {
-		swapVertex = append(swapVertex, fVertex, sVertex)
+
+		swapVertex = append(swapVertex, fVertex)
+		swapVertex = append(swapVertex, sVertex)
+
 		if err := sol.RemoveVertexFromDifferrence(fVertex, sVertex); err != nil {
 			return result, err
 		}
@@ -30,7 +35,7 @@ func KLPartitionigAlgorithm(graph *graphlib.Graph, _sol *boolmatrixlib.BoolMatri
 	}
 
 	for i := 0; i < len(swapVertex); i += 2 {
-		sol.SwapVertex(i, i+1)
+		sol.SwapVertex(swapVertex[i], swapVertex[i+1])
 	}
 
 	var err error

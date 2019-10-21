@@ -3,6 +3,7 @@ package klpartitinlin
 import (
 	"errors"
 	"math/rand"
+	"time"
 
 	boolmatrixlib "github.com/Rakiiii/goBoolMatrix"
 	graphlib "github.com/Rakiiii/goGraph"
@@ -38,14 +39,15 @@ func (k *KLSolution) CountParameter() (int64, error) {
 			}
 		}
 	}
-	return result, nil
+	return int64(k.Graph.AmountOfEdges()) - result/2, nil
 }
 
 func (k *KLSolution) Init(graph *graphlib.Graph) {
 	k.Solution.Init(2, graph.AmountOfVertex())
+	rnd := rand.New(rand.NewSource(time.Now().Unix()))
 	k.Graph = graph
-	for i := 0; i < graph.AmountOfVertex()/2; i++ {
-		k.Solution.SetBool(rand.Intn(graph.AmountOfVertex()), 0, true)
+	for i := 0; i <= graph.AmountOfVertex()/2; i++ {
+		k.Solution.SetBool(rnd.Intn(graph.AmountOfVertex()), 0, true)
 	}
 	for i := 0; i < graph.AmountOfVertex(); i++ {
 		if !k.Solution.GetBool(i, 0) {
@@ -58,10 +60,8 @@ func (k *KLSolution) Init(graph *graphlib.Graph) {
 }
 
 func (k *KLSolution) InitDiff() {
-	k.AEdgesDifferens = make([]IntPair, k.Graph.AmountOfVertex()/2)
-	k.BEdgesDifferens = make([]IntPair, k.Graph.AmountOfVertex()-k.Graph.AmountOfVertex()/2)
-	aPoint := 0
-	bPoint := 0
+	k.AEdgesDifferens = make([]IntPair, 0)
+	k.BEdgesDifferens = make([]IntPair, 0)
 	for i := 0; i < k.Graph.AmountOfVertex(); i++ {
 		if k.Solution.GetBool(i, 0) {
 			tmp := 0
@@ -72,8 +72,7 @@ func (k *KLSolution) InitDiff() {
 					tmp++
 				}
 			}
-			k.AEdgesDifferens[aPoint] = IntPair{Number: i, Diff: tmp}
-			aPoint++
+			k.AEdgesDifferens = append(k.AEdgesDifferens, IntPair{Number: i, Diff: tmp})
 		} else {
 			tmp := 0
 			for _, edge := range k.Graph.GetEdges(i) {
@@ -83,18 +82,17 @@ func (k *KLSolution) InitDiff() {
 					tmp++
 				}
 			}
-			k.BEdgesDifferens[bPoint] = IntPair{Number: i, Diff: tmp}
-			bPoint++
+			k.BEdgesDifferens = append(k.BEdgesDifferens, IntPair{Number: i, Diff: tmp})
 		}
 	}
 
-	QuickSortIntPair(&k.AEdgesDifferens, 0, len(k.AEdgesDifferens))
-	QuickSortIntPair(&k.BEdgesDifferens, 0, len(k.BEdgesDifferens))
+	k.AEdgesDifferens = QuicksortIntPair(k.AEdgesDifferens)
+	k.BEdgesDifferens = QuicksortIntPair(k.BEdgesDifferens)
 }
 
 func (k *KLSolution) FindBestPair() (int, int, int) {
-	it := len(k.BEdgesDifferens) - 2
-	for k.BEdgesDifferens[it].Diff >= k.BEdgesDifferens[len(k.BEdgesDifferens)-1].Diff-1 {
+	it := len(k.BEdgesDifferens) - 1
+	for k.BEdgesDifferens[it].Diff >= k.BEdgesDifferens[len(k.BEdgesDifferens)-1].Diff-1 || it < 0 {
 		flag := true
 		for _, edge := range k.Graph.GetEdges(k.BEdgesDifferens[it].Number) {
 			if edge == k.AEdgesDifferens[len(k.AEdgesDifferens)-1].Number {
@@ -103,7 +101,7 @@ func (k *KLSolution) FindBestPair() (int, int, int) {
 		}
 		if flag {
 			return k.AEdgesDifferens[len(k.AEdgesDifferens)-1].Number,
-				k.AEdgesDifferens[it].Number,
+				k.BEdgesDifferens[it].Number,
 				k.BEdgesDifferens[it].Diff + k.AEdgesDifferens[len(k.AEdgesDifferens)-1].Diff
 		}
 		it--
@@ -127,12 +125,12 @@ func (k *KLSolution) RemoveVertexFromDifferrence(av, bv int) error {
 	}
 	bvNum := -1
 	for i, n := range k.BEdgesDifferens {
-		if n.Number == av {
+		if n.Number == bv {
 			bvNum = i
 		}
 	}
 	if bvNum != -1 {
-		k.BEdgesDifferens = append(k.BEdgesDifferens[:avNum], k.BEdgesDifferens[avNum+1:]...)
+		k.BEdgesDifferens = append(k.BEdgesDifferens[:bvNum], k.BEdgesDifferens[bvNum+1:]...)
 	} else {
 		return errors.New("No vertex with such number in second differrenc")
 	}
@@ -164,6 +162,9 @@ func (k *KLSolution) DecrementDiff(av, bv int) {
 			}
 		}
 	}
+
+	MergeSort(k.AEdgesDifferens)
+	MergeSort(k.BEdgesDifferens)
 }
 
 func (k *KLSolution) SwapVertex(av, bv int) {
