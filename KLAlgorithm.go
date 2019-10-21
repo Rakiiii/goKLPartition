@@ -15,8 +15,11 @@ func KLPartitionigAlgorithm(graph *graphlib.Graph, _sol *boolmatrixlib.BoolMatri
 	sol := new(KLSolution)
 	sol.Init(graph)
 	if _sol != nil {
+		sol.Graph = graph
 		sol.Solution = *_sol
 		sol.InitDiff()
+	} else {
+		sol.Init(graph)
 	}
 
 	fVertex, sVertex, dif := sol.FindBestPair()

@@ -91,20 +91,25 @@ func (k *KLSolution) InitDiff() {
 }
 
 func (k *KLSolution) FindBestPair() (int, int, int) {
-	it := len(k.BEdgesDifferens) - 1
-	for k.BEdgesDifferens[it].Diff >= k.BEdgesDifferens[len(k.BEdgesDifferens)-1].Diff-1 || it < 0 {
-		flag := true
-		for _, edge := range k.Graph.GetEdges(k.BEdgesDifferens[it].Number) {
-			if edge == k.AEdgesDifferens[len(k.AEdgesDifferens)-1].Number {
-				flag = false
+	if len(k.AEdgesDifferens) < 1 || len(k.BEdgesDifferens) < 1 {
+		return 0, 0, -1
+	}
+	if len(k.BEdgesDifferens) > 2 {
+		it := len(k.BEdgesDifferens) - 1
+		for k.BEdgesDifferens[it].Diff >= k.BEdgesDifferens[len(k.BEdgesDifferens)-1].Diff-1 && it > 0 {
+			flag := true
+			for _, edge := range k.Graph.GetEdges(k.BEdgesDifferens[it].Number) {
+				if edge == k.AEdgesDifferens[len(k.AEdgesDifferens)-1].Number {
+					flag = false
+				}
 			}
+			if flag {
+				return k.AEdgesDifferens[len(k.AEdgesDifferens)-1].Number,
+					k.BEdgesDifferens[it].Number,
+					k.BEdgesDifferens[it].Diff + k.AEdgesDifferens[len(k.AEdgesDifferens)-1].Diff
+			}
+			it--
 		}
-		if flag {
-			return k.AEdgesDifferens[len(k.AEdgesDifferens)-1].Number,
-				k.BEdgesDifferens[it].Number,
-				k.BEdgesDifferens[it].Diff + k.AEdgesDifferens[len(k.AEdgesDifferens)-1].Diff
-		}
-		it--
 	}
 	return k.AEdgesDifferens[len(k.AEdgesDifferens)-1].Number,
 		k.BEdgesDifferens[len(k.BEdgesDifferens)-1].Number,
@@ -162,9 +167,12 @@ func (k *KLSolution) DecrementDiff(av, bv int) {
 			}
 		}
 	}
-
-	MergeSort(k.AEdgesDifferens)
-	MergeSort(k.BEdgesDifferens)
+	if len(k.AEdgesDifferens) > 1 {
+		MergeSort(k.AEdgesDifferens)
+	}
+	if len(k.BEdgesDifferens) > 1 {
+		MergeSort(k.BEdgesDifferens)
+	}
 }
 
 func (k *KLSolution) SwapVertex(av, bv int) {

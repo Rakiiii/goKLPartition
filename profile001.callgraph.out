@@ -1,0 +1,75 @@
+positions: instr line
+events: cpu(ms)
+
+ob=(1) /tmp/go-build084294631/b001/goKLPartition.test
+fl=(1) /usr/local/go/src/runtime/time.go
+fn=(1) runtime.timerproc
+0x448ea6 248 10
+
+ob=(1)
+fl=(2) /usr/local/go/src/math/rand/rng.go
+fn=(2) math/rand.seedrand
++720440 194 10
+
+ob=(1)
+fl=(3) /usr/local/go/src/testing/benchmark.go
+fn=(3) testing.(*B).runN
+-275299 190 0
+cfl=(4) /home/smurf/go/kernigansLinPartitionLib/KLAlgorithm_test.go
+cfn=(4) github.com/Rakiiii/goKLPartition.Benchmark
+calls=0 +74054 22
+* * 10
+
+ob=(1)
+fl=(3)
+fn=(5) testing.(*B).launch
++1696 320 0
+cfl=(3)
+cfn=(3)
+calls=0 * 190
+* * 10
+
+ob=(1)
+fl=(2)
+fn=(6) math/rand.(*rngSource).Seed
++273655 222 0
+cfl=(2)
+cfn=(2)
+calls=0 +273603 194
+* * 10
+
+ob=(1)
+fl=(5) /home/smurf/go/kernigansLinPartitionLib/KLAlgorithm.go
+fn=(7) github.com/Rakiiii/goKLPartition.KLPartitionigAlgorithm
++68076 16 0
+cfl=(6) /home/smurf/go/kernigansLinPartitionLib/KLPartiton.go
+cfn=(8) github.com/Rakiiii/goKLPartition.(*KLSolution).Init
+calls=0 +69634 47
+* * 10
+
+ob=(1)
+fl=(6)
+fn=(8)
++1558 47 0
+cfl=(7) /usr/local/go/src/math/rand/rand.go
+cfn=(9) math/rand.NewSource
+calls=0 +1666 46
+* * 10
+
+ob=(1)
+fl=(7)
+fn=(9)
++108 46 0
+cfl=(2)
+cfn=(6)
+calls=0 -69634 222
+* * 10
+
+ob=(1)
+fl=(4)
+fn=(4)
++4260 22 0
+cfl=(5)
+cfn=(7)
+calls=0 -1666 16
+* * 10
