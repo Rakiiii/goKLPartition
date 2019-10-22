@@ -46,8 +46,12 @@ func (k *KLSolution) Init(graph *graphlib.Graph) {
 	k.Solution.Init(2, graph.AmountOfVertex())
 	rnd := rand.New(rand.NewSource(time.Now().Unix()))
 	k.Graph = graph
-	for i := 0; i <= graph.AmountOfVertex()/2; i++ {
-		k.Solution.SetBool(rnd.Intn(graph.AmountOfVertex()), 0, true)
+	for i := 0; i < graph.AmountOfVertex()/2; i++ {
+		rndIndex := rnd.Intn(graph.AmountOfVertex())
+		for k.Solution.GetBool(rndIndex, 0) {
+			rndIndex = rnd.Intn(graph.AmountOfVertex())
+		}
+		k.Solution.SetBool(rndIndex, 0, true)
 	}
 	for i := 0; i < graph.AmountOfVertex(); i++ {
 		if !k.Solution.GetBool(i, 0) {
@@ -60,10 +64,16 @@ func (k *KLSolution) Init(graph *graphlib.Graph) {
 }
 
 func (k *KLSolution) InitDiff() {
+	/*testStringIa := ""
+	testStringIb := ""
+	testStringTmpa := ""
+	testStringTmpb := ""*/
+
 	k.AEdgesDifferens = make([]IntPair, 0)
 	k.BEdgesDifferens = make([]IntPair, 0)
 	for i := 0; i < k.Graph.AmountOfVertex(); i++ {
 		if k.Solution.GetBool(i, 0) {
+			//fmt.Println(i, "a:")
 			tmp := 0
 			for _, edge := range k.Graph.GetEdges(i) {
 				if k.Solution.GetBool(edge, 0) {
@@ -71,9 +81,12 @@ func (k *KLSolution) InitDiff() {
 				} else {
 					tmp++
 				}
+				//	fmt.Print(edge, "|", tmp, "	")
 			}
+			//fmt.Println()
 			k.AEdgesDifferens = append(k.AEdgesDifferens, IntPair{Number: i, Diff: tmp})
 		} else {
+			//fmt.Println(i, "b:")
 			tmp := 0
 			for _, edge := range k.Graph.GetEdges(i) {
 				if k.Solution.GetBool(edge, 1) {
@@ -81,7 +94,9 @@ func (k *KLSolution) InitDiff() {
 				} else {
 					tmp++
 				}
+				//	fmt.Print(edge, "|", tmp, "	")
 			}
+			//fmt.Println()
 			k.BEdgesDifferens = append(k.BEdgesDifferens, IntPair{Number: i, Diff: tmp})
 		}
 	}

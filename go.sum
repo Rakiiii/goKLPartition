@@ -5,6 +5,8 @@ github.com/Rakiiii/goBoolMatrix v0.1.2 h1:Pn3NdEgu8tV9BZ88dej5OokHE5Rj6LxRRnsg2K
 github.com/Rakiiii/goBoolMatrix v0.1.2/go.mod h1:pM30IPgEAv/W+/icjlUR0C5y4lU7ck4WnXOpIuOFae8=
 github.com/Rakiiii/goGraph v0.1.0 h1:gnyzVXZXuKxGsy7MBOdoWoV1NC0P6xx8FHrbSk4rA6o=
 github.com/Rakiiii/goGraph v0.1.0/go.mod h1:bYAV6bGI3W/Q2pbO8wpCVywSbfjNNbvQ41WEdop3YAI=
+github.com/Rakiiii/goGraph v0.1.1 h1:fKxX4wNyBvdpw10VBWJ83RsFfiGTtb1PEuzfX0c4F0Q=
+github.com/Rakiiii/goGraph v0.1.1/go.mod h1:bYAV6bGI3W/Q2pbO8wpCVywSbfjNNbvQ41WEdop3YAI=
 github.com/Rakiiii/goGraphPartitionLib v0.1.4 h1:647WWfPKOAsMioa1oG3+U3FkyCDxvS6iVadadnTPBUI=
 github.com/Rakiiii/goGraphPartitionLib v0.1.4/go.mod h1:hj/pPwmRHLBqiOAQxuVqeOpTL3xPj3Hv9N+zdjjPY4o=
 github.com/armon/consul-api v0.0.0-20180202201655-eb2c6b5be1b6/go.mod h1:grANhF5doyWs3UAsr3K4I6qtAmlQcZDesFNEHPZAzj8=
