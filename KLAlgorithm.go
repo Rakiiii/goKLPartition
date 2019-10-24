@@ -1,6 +1,8 @@
 package klpartitinlin
 
 import (
+	"fmt"
+
 	boolmatrixlib "github.com/Rakiiii/goBoolMatrix"
 	graphlib "github.com/Rakiiii/goGraph"
 )
@@ -41,7 +43,13 @@ func KLPartitionigAlgorithm(graph *graphlib.Graph, _sol *boolmatrixlib.BoolMatri
 		if err := sol.RemoveVertexFromDifferrence(fVertex, sVertex); err != nil {
 			return result, err
 		}
+		//PrintIntPairSlice(sol.AEdgesDifferens)
+		//PrintIntPairSlice(sol.BEdgesDifferens)
+		//fmt.Println(fVertex, ":", sVertex)
+		//fmt.Println()
 		sol.DecrementDiff(fVertex, sVertex)
+		//PrintIntPairSlice(sol.AEdgesDifferens)
+		//PrintIntPairSlice(sol.BEdgesDifferens)
 		fVertex, sVertex, dif = sol.FindBestPair()
 	}
 
@@ -56,7 +64,7 @@ func KLPartitionigAlgorithm(graph *graphlib.Graph, _sol *boolmatrixlib.BoolMatri
 	}
 	result.Matrix = sol.Solution.Copy()
 
-	//fmt.Println("value:", result.Value)
+	fmt.Println("value:", result.Value)
 
 	return result, nil
 }

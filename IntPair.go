@@ -2,7 +2,6 @@ package klpartitinlin
 
 import (
 	"fmt"
-	"math/rand"
 )
 
 type IntPair struct {
@@ -38,7 +37,8 @@ func QuicksortIntPair(a []IntPair) []IntPair {
 
 	left, right := 0, len(a)-1
 
-	pivot := rand.Int() % len(a)
+	pivot := len(a) >> 1
+	//pivot := rand.Int() % len(a)
 
 	a[pivot], a[right] = a[right], a[pivot]
 

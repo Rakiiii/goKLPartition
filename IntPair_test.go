@@ -22,7 +22,7 @@ func TestKLAlgorithm(t *testing.T) {
 
 	log.Println("graph parsed")
 
-	maxTime, _ := time.ParseDuration("10ms")
+	maxTime, _ := time.ParseDuration("120ms")
 
 	result := Result{Matrix: nil, Value: -1}
 
