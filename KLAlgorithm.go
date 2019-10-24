@@ -1,7 +1,7 @@
 package klpartitinlin
 
 import (
-	"fmt"
+	"log"
 
 	boolmatrixlib "github.com/Rakiiii/goBoolMatrix"
 	graphlib "github.com/Rakiiii/goGraph"
@@ -23,6 +23,12 @@ func KLPartitionigAlgorithm(graph *graphlib.Graph, _sol *boolmatrixlib.BoolMatri
 	} else {
 		sol.Init(graph)
 	}
+
+	val, er := sol.CountParameter()
+	if er != nil {
+		return result, er
+	}
+	log.Println("start Value:", val)
 
 	/*sol.Solution.Print()
 	fmt.Println()
@@ -64,7 +70,7 @@ func KLPartitionigAlgorithm(graph *graphlib.Graph, _sol *boolmatrixlib.BoolMatri
 	}
 	result.Matrix = sol.Solution.Copy()
 
-	fmt.Println("value:", result.Value)
+	//fmt.Println("value:", result.Value)
 
 	return result, nil
 }
