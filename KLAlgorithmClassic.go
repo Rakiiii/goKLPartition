@@ -7,14 +7,9 @@ import (
 	graphlib "github.com/Rakiiii/goGraph"
 )
 
-type Result struct {
-	Matrix *boolmatrixlib.BoolMatrix
-	Value  int64
-}
-
-func KLPartitionigAlgorithm(graph *graphlib.Graph, _sol *boolmatrixlib.BoolMatrix) (Result, error) {
+func KLPartitionigAlgorithmClassic(graph *graphlib.Graph, _sol *boolmatrixlib.BoolMatrix) (Result, error) {
 	result := Result{Matrix: nil, Value: -1}
-	sol := new(KLSolution)
+	sol := new(KLSolutionClassic)
 	//sol.Init(graph)
 	if _sol != nil {
 		sol.Graph = graph
