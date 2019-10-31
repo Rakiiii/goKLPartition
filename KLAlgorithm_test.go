@@ -24,7 +24,7 @@ func Benchmark(b *testing.B) {
 	}
 }
 
-/*func BenchmarkClassic(b *testing.B) {
+func BenchmarkClassic(b *testing.B) {
 	var parser = new(graphlib.Parser)
 	var g, err = parser.ParseUnweightedUndirectedGraphFromFile("test_gr3")
 	if err != nil {
@@ -39,4 +39,4 @@ func Benchmark(b *testing.B) {
 		result, err = KLPartitionigAlgorithmClassic(g, result.Matrix)
 		fmt.Println("graph parted", result.Value)
 	}
-}*/
+}
