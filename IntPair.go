@@ -8,6 +8,7 @@ type IntPair struct {
 	Number, Diff int
 }
 
+//CheckNumber checks is @arr containsa @num
 func CheckNumber(num int, arr []IntPair) int {
 	for i, elem := range arr {
 		if elem.Number == num {
@@ -17,19 +18,24 @@ func CheckNumber(num int, arr []IntPair) int {
 	return -1
 }
 
+//Print printing *@p to stdout
 func (p *IntPair) Print() {
 	fmt.Print(p.Number, "|", p.Diff)
 }
+
+//Println printing *@p to stdout from new line
 func (p *IntPair) Println() {
 	fmt.Println(p.Number, "|", p.Diff)
 }
 
+//PrintIntPairSlice prints @s to stdout
 func PrintIntPairSlice(s []IntPair) {
 	for _, i := range s {
 		i.Println()
 	}
 }
 
+//QuicksortIntPair sort @a by quick sort algorithm by diff incresment
 func QuicksortIntPair(a []IntPair) []IntPair {
 	if len(a) < 2 {
 		return a
@@ -57,6 +63,7 @@ func QuicksortIntPair(a []IntPair) []IntPair {
 	return a
 }
 
+//MergeSort sort @a by merge sort algorithm by diff incresment
 func MergeSort(items []IntPair) []IntPair {
 	var num = len(items)
 
@@ -80,6 +87,7 @@ func MergeSort(items []IntPair) []IntPair {
 	return Merge(MergeSort(left), MergeSort(right))
 }
 
+//Merge returns result of merging @left and @right
 func Merge(left, right []IntPair) (result []IntPair) {
 	result = make([]IntPair, len(left)+len(right))
 

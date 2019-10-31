@@ -7,6 +7,7 @@ import (
 	graphlib "github.com/Rakiiii/goGraph"
 )
 
+//Benchmark benchmark fast kernigan lin algorithm
 func Benchmark(b *testing.B) {
 	var parser = new(graphlib.Parser)
 	var g, err = parser.ParseUnweightedUndirectedGraphFromFile("test_gr3")
@@ -24,6 +25,7 @@ func Benchmark(b *testing.B) {
 	}
 }
 
+//BenchmarkClssic benchmark classi kernigan lin algorithm
 func BenchmarkClassic(b *testing.B) {
 	var parser = new(graphlib.Parser)
 	var g, err = parser.ParseUnweightedUndirectedGraphFromFile("test_gr3")

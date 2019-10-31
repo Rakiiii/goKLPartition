@@ -8,10 +8,13 @@ import (
 	graphlib "github.com/Rakiiii/goGraph"
 )
 
+//KLSolutionClassic struct for solving graph partitioning with KL classic algorithm
+//KLSolution as inclusion and redefine some methods
 type KLSolutionClassic struct {
 	KLSolution
 }
 
+//Init initialize grpah with @grpah param, and generating random solution
 func (k *KLSolutionClassic) Init(graph *graphlib.Graph) {
 	k.Solution.Init(2, graph.AmountOfVertex())
 	rnd := rand.New(rand.NewSource(time.Now().Unix()))
@@ -33,13 +36,13 @@ func (k *KLSolutionClassic) Init(graph *graphlib.Graph) {
 
 }
 
+//InitDiff initializing differense betewen out and in vertex
 func (k *KLSolutionClassic) InitDiff() {
 	log.Println("initDiff")
 	k.AEdgesDifferens = make([]IntPair, 0)
 	k.BEdgesDifferens = make([]IntPair, 0)
 	for i := 0; i < k.Graph.AmountOfVertex(); i++ {
 		if k.Solution.GetBool(i, 0) {
-			//fmt.Println(i, "a:")
 			tmp := 0
 			for _, edge := range k.Graph.GetEdges(i) {
 				if k.Solution.GetBool(edge, 0) {
@@ -47,12 +50,9 @@ func (k *KLSolutionClassic) InitDiff() {
 				} else {
 					tmp++
 				}
-				//	fmt.Print(edge, "|", tmp, "	")
 			}
-			//fmt.Println()
 			k.AEdgesDifferens = append(k.AEdgesDifferens, IntPair{Number: i, Diff: tmp})
 		} else {
-			//fmt.Println(i, "b:")
 			tmp := 0
 			for _, edge := range k.Graph.GetEdges(i) {
 				if k.Solution.GetBool(edge, 1) {
@@ -60,14 +60,14 @@ func (k *KLSolutionClassic) InitDiff() {
 				} else {
 					tmp++
 				}
-				//	fmt.Print(edge, "|", tmp, "	")
 			}
-			//fmt.Println()
 			k.BEdgesDifferens = append(k.BEdgesDifferens, IntPair{Number: i, Diff: tmp})
 		}
 	}
 }
 
+//DecrementDiff decrementing differense in out edges for vertex with number @av param and @bv param,@av param should be in AEdgesDifference and
+//@bv param must be in BEdgesDifferens
 func (k *KLSolutionClassic) DecrementDiff(av, bv int) {
 	aEdges := k.Graph.GetEdges(av)
 	for _, edge := range aEdges {
@@ -95,6 +95,7 @@ func (k *KLSolutionClassic) DecrementDiff(av, bv int) {
 	}
 }
 
+//FindBestPair returns best pair for swap in setted solution
 func (k *KLSolutionClassic) FindBestPair() (int, int, int) {
 	maxdif, av, bv := -1, -1, -1
 	subdif := 0

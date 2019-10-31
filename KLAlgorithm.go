@@ -7,15 +7,17 @@ import (
 	graphlib "github.com/Rakiiii/goGraph"
 )
 
+//Resutl struct contains matrix of graph partition and value of parameter of partition
 type Result struct {
 	Matrix *boolmatrixlib.BoolMatrix
 	Value  int64
 }
 
+//KLPartitionigAlgorithm algorithm of graph partition(fast realisation) grtting link to graph as param @grpah,
+//link to  previosu soluiotn as @_sol param(set nil if first itteration)
 func KLPartitionigAlgorithm(graph *graphlib.Graph, _sol *boolmatrixlib.BoolMatrix) (Result, error) {
 	result := Result{Matrix: nil, Value: -1}
 	sol := new(KLSolution)
-	//sol.Init(graph)
 	if _sol != nil {
 		sol.Graph = graph
 		sol.Solution = *_sol
@@ -30,12 +32,6 @@ func KLPartitionigAlgorithm(graph *graphlib.Graph, _sol *boolmatrixlib.BoolMatri
 	}
 	log.Println("start Value:", val)
 
-	/*sol.Solution.Print()
-	fmt.Println()
-	PrintIntPairSlice(sol.AEdgesDifferens)
-	PrintIntPairSlice(sol.BEdgesDifferens)
-	fmt.Println()*/
-
 	fVertex, sVertex, dif := sol.FindBestPair()
 
 	swapVertex := make([]int, 0)
@@ -44,18 +40,10 @@ func KLPartitionigAlgorithm(graph *graphlib.Graph, _sol *boolmatrixlib.BoolMatri
 		swapVertex = append(swapVertex, fVertex)
 		swapVertex = append(swapVertex, sVertex)
 
-		//fmt.Println("differrence:", dif)
-
 		if err := sol.RemoveVertexFromDifferrence(fVertex, sVertex); err != nil {
 			return result, err
 		}
-		//PrintIntPairSlice(sol.AEdgesDifferens)
-		//PrintIntPairSlice(sol.BEdgesDifferens)
-		//fmt.Println(fVertex, ":", sVertex)
-		//fmt.Println()
 		sol.DecrementDiff(fVertex, sVertex)
-		//PrintIntPairSlice(sol.AEdgesDifferens)
-		//PrintIntPairSlice(sol.BEdgesDifferens)
 		fVertex, sVertex, dif = sol.FindBestPair()
 	}
 
@@ -69,8 +57,6 @@ func KLPartitionigAlgorithm(graph *graphlib.Graph, _sol *boolmatrixlib.BoolMatri
 		return result, err
 	}
 	result.Matrix = sol.Solution.Copy()
-
-	//fmt.Println("value:", result.Value)
 
 	return result, nil
 }
