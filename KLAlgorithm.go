@@ -15,7 +15,7 @@ type Result struct {
 
 //KLPartitionigAlgorithm algorithm of graph partition(fast realisation) grtting link to graph as param @grpah,
 //link to  previosu soluiotn as @_sol param(set nil if first itteration)
-func KLPartitionigAlgorithm(graph *graphlib.Graph, _sol *boolmatrixlib.BoolMatrix) (Result, error) {
+func KLPartitionigAlgorithm(graph graphlib.IGraph, _sol *boolmatrixlib.BoolMatrix) (Result, error) {
 	result := Result{Matrix: nil, Value: -1}
 	sol := new(KLSolution)
 	if _sol != nil {
