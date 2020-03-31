@@ -65,6 +65,15 @@ func TestKLAlgorithm(t *testing.T) {
 	saveResult(&result)
 }
 
+func TestQuicksortIntPair(t *testing.T) {
+	s := make([]IntPair, 10)
+	for i, _ := range s {
+		s[9-i].Diff = i
+		s[i].Number = i
+	}
+	PrintIntPairSlice(s)
+}
+
 func writeTime(time time.Duration) {
 	timeFile, err := os.Create("time")
 	defer timeFile.Close()

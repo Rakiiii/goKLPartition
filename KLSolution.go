@@ -14,7 +14,7 @@ import (
 type KLSolution struct {
 	Solution boolmatrixlib.BoolMatrix
 
-	Graph *graphlib.Graph
+	Graph graphlib.IGraph
 
 	AEdgesDifferens []IntPair
 	BEdgesDifferens []IntPair
@@ -46,7 +46,7 @@ func (k *KLSolution) CountParameter() (int64, error) {
 }
 
 //Init initialize grpah with @grpah param, and generating random solution
-func (k *KLSolution) Init(graph *graphlib.Graph) {
+func (k *KLSolution) Init(graph graphlib.IGraph) {
 	k.Solution.Init(2, graph.AmountOfVertex())
 	rnd := rand.New(rand.NewSource(time.Now().Unix()))
 	k.Graph = graph
